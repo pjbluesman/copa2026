@@ -33,7 +33,7 @@
         header h1 span { color: var(--fifa-yellow); }
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* Nova Área de Importação */
+        /* Área de Importação */
         .import-container {
             background: white;
             padding: 15px 20px;
@@ -70,10 +70,13 @@
         .tab-btn.active, .tab-btn:hover { background-color: var(--fifa-blue); color: white; }
         .tab-btn.btn-danger { border-color: #dc3545; color: #dc3545; opacity: 0.5; cursor: not-allowed; }
         
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
         .groups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 25px; }
         .group-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); border-top: 6px solid var(--fifa-green); }
         .knockout-card { border-top: 6px solid var(--fifa-yellow); margin-bottom: 30px;}
-        .knockout-title { font-size: 1.4rem; color: var(--fifa-blue); font-weight: bold; margin-bottom: 15px; width: 100%; grid-column: 1 / -1; border-bottom: 3px solid var(--fifa-yellow); padding-bottom: 5px;}
+        .knockout-title { font-size: 1.4rem; color: var(--fifa-blue); font-weight: bold; margin-bottom: 15px; width: 100%; grid-column: 1 / -1; border-bottom: 3px solid var(--fifa-yellow); padding-bottom: 5px; margin-top: 20px;}
 
         .group-header { text-align: center; font-size: 1.3rem; margin-bottom: 5px; font-weight: bold; color: var(--fifa-blue); }
         .group-subheader { text-align: center; font-size: 0.95rem; color: #64748b; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
@@ -182,20 +185,104 @@
 </div>
 
 <script>
-    // Estrutura Base de Dados Primária
+    // Estrutura Base Primária com Metadados Completos Restaurados
     const groupDatabase = {
-        "A": { teams: ["México", "Coreia do Sul", "República Checa", "África do Sul"], matches: [{ id: "a1", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "África do Sul" }, { id: "a2", teamA: "Coreia do Sul", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "República Checa" }, { id: "a3", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "África do Sul" }, { id: "a4", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Coreia do Sul" }, { id: "a5", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "México" }, { id: "a6", teamA: "África do Sul", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Coreia do Sul" }] },
-        "B": { teams: ["Suíça", "Canadá", "Bósnia", "Catar"], matches: [{ id: "b1", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Bósnia" }, { id: "b2", teamA: "Catar", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Suíça" }, { id: "b3", teamA: "Suíça", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Bósnia" }, { id: "b4", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Catar" }, { id: "b5", teamA: "Suíça", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Canadá" }, { id: "b6", teamA: "Bósnia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Catar" }] },
-        "C": { teams: ["Brasil", "Marrocos", "Escócia", "Haiti"], matches: [{ id: "c1", teamA: "Brasil", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Marrocos" }, { id: "c2", teamA: "Haiti", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Escócia" }, { id: "c3", teamA: "Escócia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Marrocos" }, { id: "c4", teamA: "Brasil", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Haiti" }, { id: "c5", teamA: "Escócia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Brasil" }, { id: "c6", teamA: "Marrocos", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Haiti" }] },
-        "D": { teams: ["EUA", "Turquia", "Austrália", "Paraguai"], matches: [{ id: "d1", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Paraguai" }, { id: "d2", teamA: "Austrália", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Turquia" }, { id: "d3", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Austrália" }, { id: "d4", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Paraguai" }, { id: "d5", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "EUA" }, { id: "d6", teamA: "Paraguai", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Austrália" }] },
-        "E": { teams: ["Alemanha", "Equador", "Costa do Marfim", "Curaçao"], matches: [{ id: "e1", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Curaçao" }, { id: "e2", teamA: "Costa do Marfim", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Equador" }, { id: "e3", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Costa do Marfim" }, { id: "e4", teamA: "Equador", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Curaçao" }, { id: "e5", teamA: "Equador", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Alemanha" }, { id: "e6", teamA: "Curaçao", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Costa do Marfim" }] },
-        "F": { teams: ["Holanda", "Japão", "Suécia", "Tunísia"], matches: [{ id: "f1", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Japão" }, { id: "f2", teamA: "Suécia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Tunísia" }, { id: "f3", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Suécia" }, { id: "f4", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Japão" }, { id: "f5", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Holanda" }, { id: "f6", teamA: "Japão", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Suécia" }] },
-        "G": { teams: ["Bélgica", "Irã", "Egito", "Nova Zelândia"], matches: [{ id: "g1", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Egito" }, { id: "g2", teamA: "Irã", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Nova Zelândia" }, { id: "g3", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Irã" }, { id: "g4", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Egito" }, { id: "g5", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Bélgica" }, { id: "g6", teamA: "Egito", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Irã" }] },
-        "H": { teams: ["Espanha", "Uruguai", "Arábia Saudita", "Cabo Verde"], matches: [{ id: "h1", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Cabo Verde" }, { id: "h2", teamA: "Arábia Saudita", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Uruguai" }, { id: "h3", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Arábia Saudita" }, { id: "h4", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Cabo Verde" }, { id: "h5", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Espanha" }, { id: "h6", teamA: "Cabo Verde", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Arábia Saudita" }] },
-        "I": { teams: ["França", "Noruega", "Senegal", "Iraque"], matches: [{ id: "i1", teamA: "França", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Senegal" }, { id: "i2", teamA: "Iraque", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Noruega" }, { id: "i3", teamA: "França", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Iraque" }, { id: "i4", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Senegal" }, { id: "i5", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "França" }, { id: "i6", teamA: "Senegal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Iraque" }] },
-        "J": { teams: ["Argentina", "Áustria", "Argélia", "Jordânia"], matches: [{ id: "j1", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Argélia" }, { id: "j2", teamA: "Áustria", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Jordânia" }, { id: "j3", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Áustria" }, { id: "j4", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Argélia" }, { id: "j5", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Argentina" }, { id: "j6", teamA: "Argélia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Áustria" }] },
-        "K": { teams: ["Portugal", "Colômbia", "Uzbequistão", "RD Congo"], matches: [{ id: "k1", teamA: "Portugal", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "RD Congo" }, { id: "k2", teamA: "Uzbequistão", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Colômbia" }, { id: "k3", teamA: "Portugal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Uzbequistão" }, { id: "k4", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "RD Congo" }, { id: "k5", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Portugal" }, { id: "k6", teamA: "RD Congo", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Uzbequistão" }] },
-        "L": { teams: ["Inglaterra", "Croácia", "Gana", "Panamá"], matches: [{ id: "l1", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Croácia" }, { id: "l2", teamA: "Gana", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Panamá" }, { id: "l3", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Gana" }, { id: "l4", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Croácia" }, { id: "l5", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Inglaterra" }, { id: "l6", teamA: "Croácia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Gana" }] }
+        "A": { teams: ["México", "Coreia do Sul", "República Checa", "África do Sul"], matches: [
+            { id: "a1", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "África do Sul", date: "11/06/2026", time: "17:00", venue: "Estádio Azteca, Cidade do México" },
+            { id: "a2", teamA: "Coreia do Sul", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "República Checa", date: "12/06/2026", time: "14:00", venue: "Estádio Chivas, Guadalajara" },
+            { id: "a3", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "África do Sul", date: "16/06/2026", time: "15:00", venue: "Estádio BBVA, Monterrey" },
+            { id: "a4", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Coreia do Sul", date: "17/06/2026", time: "18:00", venue: "Estádio Azteca, Cidade do México" },
+            { id: "a5", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "México", date: "22/06/2026", time: "16:00", venue: "Estádio Chivas, Guadalajara" },
+            { id: "a6", teamA: "África do Sul", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Coreia do Sul", date: "22/06/2026", time: "16:00", venue: "Estádio BBVA, Monterrey" }
+        ]},
+        "B": { teams: ["Suíça", "Canadá", "Bósnia", "Catar"], matches: [
+            { id: "b1", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Bósnia", date: "12/06/2026", time: "16:00", venue: "BC Place, Vancouver" },
+            { id: "b2", teamA: "Catar", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Suíça", date: "13/06/2026", time: "13:00", venue: "BMO Field, Toronto" },
+            { id: "b3", teamA: "Suíça", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Bósnia", date: "17/06/2026", time: "14:00", venue: "BMO Field, Toronto" },
+            { id: "b4", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Catar", date: "18/06/2026", time: "19:00", venue: "BC Place, Vancouver" },
+            { id: "b5", teamA: "Suíça", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Canadá", date: "23/06/2026", time: "15:00", venue: "BMO Field, Toronto" },
+            { id: "b6", teamA: "Bósnia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Catar", date: "23/06/2026", time: "15:00", venue: "BC Place, Vancouver" }
+        ]},
+        "C": { teams: ["Brasil", "Marrocos", "Escócia", "Haiti"], matches: [
+            { id: "c1", teamA: "Brasil", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Marrocos", date: "13/06/2026", time: "16:00", venue: "MetLife Stadium, Nova York" },
+            { id: "c2", teamA: "Haiti", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Escócia", date: "14/06/2026", time: "12:00", venue: "Gillette Stadium, Boston" },
+            { id: "c3", teamA: "Escócia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Marrocos", date: "18/06/2026", time: "15:00", venue: "Lincoln Financial, Filadélfia" },
+            { id: "c4", teamA: "Brasil", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Haiti", date: "19/06/2026", time: "20:00", venue: "MetLife Stadium, Nova York" },
+            { id: "c5", teamA: "Escócia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Brasil", date: "24/06/2026", time: "16:00", venue: "Gillette Stadium, Boston" },
+            { id: "c6", teamA: "Marrocos", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Haiti", date: "24/06/2026", time: "16:00", venue: "Lincoln Financial, Filadélfia" }
+        ]},
+        "D": { teams: ["EUA", "Turquia", "Austrália", "Paraguai"], matches: [
+            { id: "d1", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Paraguai", date: "12/06/2026", time: "19:00", venue: "SoFi Stadium, Los Angeles" },
+            { id: "d2", teamA: "Austrália", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Turquia", date: "13/06/2026", time: "15:00", venue: "Lumen Field, Seattle" },
+            { id: "d3", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Austrália", date: "17/06/2026", time: "20:00", venue: "SoFi Stadium, Los Angeles" },
+            { id: "d4", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Paraguai", date: "18/06/2026", time: "14:00", venue: "Stanford Stadium, São Francisco" },
+            { id: "d5", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "EUA", date: "23/06/2026", time: "18:00", venue: "Lumen Field, Seattle" },
+            { id: "d6", teamA: "Paraguai", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Austrália", date: "23/06/2026", time: "18:00", venue: "Stanford Stadium, São Francisco" }
+        ]},
+        "E": { teams: ["Alemanha", "Equador", "Costa do Marfim", "Curaçao"], matches: [
+            { id: "e1", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Curaçao", date: "14/06/2026", time: "14:00", venue: "Mercedes-Benz, Atlanta" },
+            { id: "e2", teamA: "Costa do Marfim", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Equador", date: "15/06/2026", time: "16:00", venue: "NRG Stadium, Houston" },
+            { id: "e3", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Costa do Marfim", date: "19/06/2026", time: "15:00", venue: "AT&T Stadium, Dallas" },
+            { id: "e4", teamA: "Equador", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Curaçao", date: "20/06/2026", time: "13:00", venue: "Arrowhead, Kansas City" },
+            { id: "e5", teamA: "Equador", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Alemanha", date: "25/06/2026", time: "15:00", venue: "NRG Stadium, Houston" },
+            { id: "e6", teamA: "Curaçao", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Costa do Marfim", date: "25/06/2026", time: "15:00", venue: "Arrowhead, Kansas City" }
+        ]},
+        "F": { teams: ["Holanda", "Japão", "Suécia", "Tunísia"], matches: [
+            { id: "f1", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Japão", date: "14/06/2026", time: "17:00", venue: "Hard Rock Stadium, Miami" },
+            { id: "f2", teamA: "Suécia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Tunísia", date: "15/06/2026", time: "13:00", venue: "Exploria Stadium, Orlando" },
+            { id: "f3", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Suécia", date: "19/06/2026", time: "18:00", venue: "Hard Rock Stadium, Miami" },
+            { id: "f4", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Japão", date: "20/06/2026", time: "16:00", venue: "Exploria Stadium, Orlando" },
+            { id: "f5", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Holanda", date: "25/06/2026", time: "18:00", venue: "Hard Rock Stadium, Miami" },
+            { id: "f6", teamA: "Japão", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Suécia", date: "25/06/2026", time: "18:00", venue: "Exploria Stadium, Orlando" }
+        ]},
+        "G": { teams: ["Bélgica", "Irã", "Egito", "Nova Zelândia"], matches: [
+            { id: "g1", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Egito", date: "15/06/2026", time: "15:00", venue: "Lucas Oil, Indianápolis" },
+            { id: "g2", teamA: "Irã", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Nova Zelândia", date: "16/06/2026", time: "13:00", venue: "Paul Brown, Cincinnati" },
+            { id: "g3", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Irã", date: "20/06/2026", time: "14:00", venue: "Lucas Oil, Indianápolis" },
+            { id: "g4", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Egito", date: "21/06/2026", time: "16:00", venue: "Paul Brown, Cincinnati" },
+            { id: "g5", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Bélgica", date: "26/06/2026", time: "16:00", venue: "Lucas Oil, Indianápolis" },
+            { id: "g6", teamA: "Egito", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Irã", date: "26/06/2026", time: "16:00", venue: "Paul Brown, Cincinnati" }
+        ]},
+        "H": { teams: ["Espanha", "Uruguai", "Arábia Saudita", "Cabo Verde"], matches: [
+            { id: "h1", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Cabo Verde", date: "15/06/2026", time: "18:00", venue: "Nissan Stadium, Nashville" },
+            { id: "h2", teamA: "Arábia Saudita", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Uruguai", date: "16/06/2026", time: "16:00", venue: "FedExField, Washington" },
+            { id: "h3", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Arábia Saudita", date: "20/06/2026", time: "17:00", venue: "Nissan Stadium, Nashville" },
+            { id: "h4", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Cabo Verde", date: "21/06/2026", time: "14:00", venue: "FedExField, Washington" },
+            { id: "h5", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Espanha", date: "26/06/2026", time: "19:00", venue: "Nissan Stadium, Nashville" },
+            { id: "h6", teamA: "Cabo Verde", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Arábia Saudita", date: "26/06/2026", time: "19:00", venue: "FedExField, Washington" }
+        ]},
+        "I": { teams: ["França", "Noruega", "Senegal", "Iraque"], matches: [
+            { id: "i1", teamA: "França", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Senegal", date: "16/06/2026", time: "15:00", venue: "MetLife Stadium, Nova York" },
+            { id: "i2", teamA: "Iraque", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Noruega", date: "17/06/2026", time: "13:00", venue: "Gillette Stadium, Boston" },
+            { id: "i3", teamA: "França", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Iraque", date: "21/06/2026", time: "14:00", venue: "Lincoln Financial, Filadélfia" },
+            { id: "i4", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Senegal", date: "22/06/2026", time: "16:00", venue: "MetLife Stadium, Nova York" },
+            { id: "i5", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "França", date: "27/06/2026", time: "16:00", venue: "Gillette Stadium, Boston" },
+            { id: "i6", teamA: "Senegal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Iraque", date: "27/06/2026", time: "16:00", venue: "Lincoln Financial, Filadélfia" }
+        ]},
+        "J": { teams: ["Argentina", "Áustria", "Argélia", "Jordânia"], matches: [
+            { id: "j1", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Argélia", date: "16/06/2026", time: "18:00", venue: "AT&T Stadium, Dallas" },
+            { id: "j2", teamA: "Áustria", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Jordânia", date: "17/06/2026", time: "15:00", venue: "NRG Stadium, Houston" },
+            { id: "j3", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Áustria", date: "21/06/2026", time: "19:00", venue: "Arrowhead, Kansas City" },
+            { id: "j4", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Argélia", date: "22/06/2026", time: "14:00", venue: "AT&T Stadium, Dallas" },
+            { id: "j5", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Argentina", date: "27/06/2026", time: "19:00", venue: "NRG Stadium, Houston" },
+            { id: "j6", teamA: "Argélia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Áustria", date: "27/06/2026", time: "19:00", venue: "Arrowhead, Kansas City" }
+        ]},
+        "K": { teams: ["Portugal", "Colômbia", "Uzbequistão", "RD Congo"], matches: [
+            { id: "k1", teamA: "Portugal", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "RD Congo", date: "17/06/2026", time: "16:00", venue: "Hard Rock Stadium, Miami" },
+            { id: "k2", teamA: "Uzbequistão", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Colômbia", date: "18/06/2026", time: "15:00", venue: "Exploria Stadium, Orlando" },
+            { id: "k3", teamA: "Portugal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Uzbequistão", date: "22/06/2026", time: "17:00", venue: "Mercedes-Benz, Atlanta" },
+            { id: "k4", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "RD Congo", date: "23/06/2026", time: "16:00", venue: "Nissan Stadium, Nashville" },
+            { id: "k5", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Portugal", date: "28/06/2026", time: "15:00", venue: "Hard Rock Stadium, Miami" },
+            { id: "k6", teamA: "RD Congo", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Uzbequistão", date: "28/06/2026", time: "15:00", venue: "Exploria Stadium, Orlando" }
+        ]},
+        "L": { teams: ["Inglaterra", "Croácia", "Gana", "Panamá"], matches: [
+            { id: "l1", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Croácia", date: "17/06/2026", time: "19:00", venue: "SoFi Stadium, Los Angeles" },
+            { id: "l2", teamA: "Gana", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Panamá", date: "18/06/2026", time: "18:00", venue: "Lumen Field, Seattle" },
+            { id: "l3", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Gana", date: "22/06/2026", time: "20:00", venue: "Stanford Stadium, São Francisco" },
+            { id: "l4", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Croácia", date: "23/06/2026", time: "19:00", venue: "SoFi Stadium, Los Angeles" },
+            { id: "l5", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Inglaterra", date: "28/06/2026", time: "18:00", venue: "Lumen Field, Seattle" },
+            { id: "l6", teamA: "Croácia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Gana", date: "28/06/2026", time: "18:00", venue: "Stanford Stadium, São Francisco" }
+        ]}
     };
 
     const knockoutPhases = {
@@ -266,16 +353,19 @@
     const phasesMapping = { 0: "Grupos", 1: "2ª Fase", 2: "Oitavas", 3: "Quartas", 4: "Semi", 5: "3º Lugar", 6: "Final" };
     let chartInstance = null;
 
+    // Correção Estrutural da Alternância de Abas (Evita espelhar conteúdo)
     function switchTab(tabId, element) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
         document.getElementById(tabId).classList.add('active');
         if(element) element.classList.add('active');
+        
         if(tabId === 'classificacao') updateAllTables();
         if(tabId === 'graficos') renderCharts();
     }
 
-    // Inicializar Fase de Grupos Visuais
+    // Inicializar Fase de Grupos Visuais com Datas, Horários e Locais
     function initGroups() {
         const container = document.getElementById('groups-container');
         if(!container) return; 
@@ -289,6 +379,9 @@
             groupData.matches.forEach(match => {
                 groupHtml += `
                     <div class="match-block" data-teams="${match.teamA.toLowerCase()} ${match.teamB.toLowerCase()}">
+                        <div class="match-info-bar">
+                            🗓️ ${match.date} &nbsp;|&nbsp; 🕒 ${match.time} &nbsp;|&nbsp; 📍 ${match.venue}
+                        </div>
                         <div class="match-row-real">
                             <span class="team-name-display team-left text-right" style="width:38%">${match.teamA}</span>
                             <div class="score-real-center">
@@ -552,7 +645,7 @@
         });
     }
 
-    // Mecanismo Push: Ler Lista de Objetos do seu JSON
+    // Botão Push de Importação do JSON customizado
     function importarResultadosJSON() {
         const fileInput = document.getElementById('jsonFileInput');
         if (!fileInput.files.length) return alert("Por favor, selecione um arquivo de dados .json primeiro!");
@@ -570,7 +663,7 @@
                     
                     if(golsA === undefined || golsB === undefined) return;
 
-                    // 1. Tenta encontrar na Fase de Grupos
+                    // 1. Fase de Grupos
                     for (let gKey in groupDatabase) {
                         let match = groupDatabase[gKey].matches.find(m => 
                             m.teamA.trim().toLowerCase() === timeA.trim().toLowerCase() && 
@@ -583,7 +676,7 @@
                         }
                     }
 
-                    // 2. Tenta encontrar nas Fases Eliminatórias (Mata-Mata)
+                    // 2. Fases Eliminatórias (Mata-Mata)
                     for (let pKey in knockoutPhases) {
                         let match = knockoutPhases[pKey].matches.find(m => 
                             m.actualA.trim().toLowerCase() === timeA.trim().toLowerCase() && 
@@ -597,11 +690,10 @@
                     }
                 });
 
-                // Atualizar encadeamentos e localStorage
                 syncKnockoutFromGroups();
                 saveToLocalStorage();
                 
-                // Forçar recarga visual dos inputs da tela ativa
+                // Recarga de componentes visuais ativos
                 initGroups();
                 initKnockout();
                 updateAllTables();
@@ -628,7 +720,6 @@
         if(kData) Object.assign(knockoutPhases, JSON.parse(kData));
     }
 
-    // Inicializador Unificado de ciclo de vida
     window.addEventListener('DOMContentLoaded', () => { 
         loadFromLocalStorage();
         initGroups(); 
