@@ -79,7 +79,20 @@
         </div>
     </div>
 </div>
-
+<!-- Nova funcionalidade de Importação -->
+    <div class="import-box">
+        <label>Importar resultados (Arquivo JSON): </label>
+        <input type="file" id="jsonInput" accept=".json">
+        <button onclick="processarArquivoJSON()">Carregar Resultados</button>
+    </div>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('jogos', this)">Fase de Grupos</button>
+        <button class="tab-btn" onclick="switchTab('graficos', this)">Gráficos</button>
+    </div>
+    <div id="jogos" class="tab-content active"><div id="groups-container"></div></div>
+    <div id="graficos" class="tab-content"><canvas id="rankingChart"></canvas></div>
+</div>
+    
 <script>
     // Bando de dados inicial
     const defaultGroupDatabase = {
@@ -226,6 +239,39 @@
     const phasesMapping = { 0: "Grupos", 1: "2ª Fase", 2: "Oitavas", 3: "Quartas", 4: "Semi", 5: "3º Lugar", 6: "Final" };
     let chartInstance = null;
 
+function processarArquivoJSON() {
+        const fileInput = document.getElementById('jsonInput');
+        if (!fileInput.files.length) return alert("Selecione um arquivo JSON primeiro!");
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const jogos = JSON.parse(e.target.result);
+            
+            jogos.forEach(item => {
+                const [timeA, timeB] = item.Jogo.split(" vs. ");
+                const [golsA, golsB] = item.Resultado.split(" - ");
+                
+                // Procura o jogo dentro dos grupos
+                for (let grupo in groupDatabase) {
+                    let match = groupDatabase[grupo].matches.find(m => 
+                        m.teamA.toLowerCase() === timeA.toLowerCase() && 
+                        m.teamB.toLowerCase() === timeB.toLowerCase()
+                    );
+                    
+                    if (match) {
+                        match.scoreA = parseInt(golsA);
+                        match.scoreB = parseInt(golsB);
+                    }
+                }
+            });
+
+            alert("Dados importados com sucesso!");
+            saveData();
+            location.reload(); // Recarrega para aplicar as mudanças
+        };
+        reader.readAsText(fileInput.files[0]);
+    }
+    
     // ----- NOVIDADE: FUNÇÕES DE SALVAR E CARREGAR DADOS -----
     function loadData() {
         const savedGroups = localStorage.getItem('copa2026_groups');
@@ -464,7 +510,9 @@
         initGroups(); 
         initKnockout(); 
         syncKnockoutFromGroups(); 
+        renderCharts();
     });
+    
 </script>
 </body>
 </html>
