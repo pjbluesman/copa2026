@@ -3,59 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador Copa do Mundo 2026</title>
+    <title>Simulador Avançado - Copa do Mundo 2026</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root{--fifa-green:#00b159;--fifa-blue:#002f6c;--fifa-yellow:#ffcc00;--fifa-light:#f4f6f9;--dark-color:#1a1a1a}
-        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:var(--fifa-light);margin:0;padding:20px;color:var(--dark-color)}
-        header{text-align:center;background:linear-gradient(135deg,var(--fifa-blue),#001838);color:#fff;padding:30px 20px;border-radius:12px;margin-bottom:25px;box-shadow:0 4px 15px rgba(0,0,0,0.2);border-bottom:6px solid var(--fifa-green)}
-        header h1 span{color:var(--fifa-yellow)}
-        .container{max-width:1400px;margin:0 auto}
-        .search-container{display:flex;justify-content:center;margin-bottom:25px}
-        .search-bar{width:100%;max-width:500px;padding:12px 20px;font-size:1rem;border:2px solid var(--fifa-blue);border-radius:30px;outline:0;box-shadow:0 4px 6px rgba(0,0,0,0.05);transition:.3s}
-        .search-bar:focus{border-color:var(--fifa-green);box-shadow:0 4px 12px rgba(0,177,89,0.2)}
-        .tabs{display:flex;justify-content:center;gap:10px;margin-bottom:25px;flex-wrap:wrap}
-        .tab-btn{padding:12px 24px;background-color:#fff;border:2px solid var(--fifa-blue);color:var(--fifa-blue);border-radius:8px;cursor:pointer;font-weight:700;transition:.3s}
-        .tab-btn.active,.tab-btn:hover{background-color:var(--fifa-blue);color:#fff}
-        .btn-danger {border-color: #dc3545; color: #dc3545;}
-        .btn-danger:hover {background-color: #dc3545; color: white;}
-        .tab-content{display:none} .tab-content.active{display:block}
-        .groups-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:25px}
-        .group-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,0.06);border-top:6px solid var(--fifa-green)}
-        .knockout-card{border-top:6px solid var(--fifa-yellow)}
-        .group-header{text-align:center;font-size:1.3rem;margin-bottom:15px;font-weight:700;color:var(--fifa-blue)}
-        .group-subheader{text-align:center;font-size:.95rem;color:#64748b;margin-bottom:15px;border-bottom:2px solid #eee;padding-bottom:10px}
-        .match-block{background-color:#fff;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:15px;padding:12px;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
-        .match-info-bar{text-align:center;font-size:.75rem;color:#64748b;font-weight:600;margin-bottom:12px;background:#f8fafc;padding:6px;border-radius:4px;border:1px solid #e2e8f0}
-        .match-row-real{display:flex;align-items:center;justify-content:space-between;font-size:.95rem;font-weight:600}
-        .match-row-palpite{display:flex;align-items:center;justify-content:center;gap:10px;font-size:.8rem;color:#555;background-color:#e4e4e7;margin-top:12px;padding:6px 10px;border-radius:4px;border:1px dashed #a1a1aa}
-        .team-display-container{display:flex;flex-direction:column;width:38%}
-        .team-left{align-items:flex-end;text-align:right} .team-right{align-items:flex-start;text-align:left}
-        .slot-indicator{font-size:.7rem;color:#94a3b8;font-weight:700;margin-bottom:2px}
-        .actual-team-input{width:100%;border:none;border-bottom:1px solid #cbd5e1;font-size:.95rem;padding:2px 0;outline:0;font-weight:700;background:0 0;color:var(--fifa-blue);transition:.2s}
-        .actual-team-input:focus{border-bottom-color:var(--fifa-green)}
-        select.actual-team-input{cursor:pointer;color:var(--fifa-blue)}
-        select.actual-team-input option,select.actual-team-input optgroup{background-color:#fff;color:#333;text-align:left;font-size:.9rem}
-        select.actual-team-input optgroup{font-weight:700;color:var(--fifa-blue)}
-        .text-right{text-align:right} .text-left{text-align:left}
-        .score-real-center{display:flex;align-items:center;gap:6px}
-        .score-input-real{width:36px;text-align:center;padding:5px;font-size:1rem;font-weight:700;border:2px solid var(--fifa-green);background-color:rgba(0,177,89,.03);border-radius:6px}
-        .score-input-palpite{width:30px;text-align:center;padding:2px;font-size:.85rem;font-weight:700;border:1px solid #a1a1aa;background-color:#fff;border-radius:4px}
-        .vs-text{font-size:.75rem;color:#94a3b8;font-weight:700}
-        .table-ranking{width:100%;border-collapse:collapse;margin-top:5px;font-size:.85rem;table-layout:fixed}
-        .table-ranking th,.table-ranking td{border:1px solid #e2e8f0;padding:6px 2px;text-align:center;overflow:hidden;text-overflow:ellipsis}
-        .table-ranking th{background-color:var(--fifa-blue);color:#fff;font-weight:700}
-        .legenda{font-size:.75rem;color:#64748b;margin-bottom:10px;text-align:center;background:#f8fafc;padding:6px;border-radius:4px;border:1px solid #e2e8f0;font-style:italic}
-        .chart-box{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.06);border-top:6px solid var(--fifa-blue);height:950px;position:relative}
+        :root {
+            --fifa-green: #00b159; 
+            --fifa-blue: #002f6c;  
+            --fifa-yellow: #ffcc00; 
+            --fifa-light: #f4f6f9;
+            --dark-color: #1a1a1a;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--fifa-light);
+            margin: 0;
+            padding: 20px;
+            color: var(--dark-color);
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--fifa-blue), #001838);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom: 6px solid var(--fifa-green);
+        }
+        header h1 span { color: var(--fifa-yellow); }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        /* Nova Área de Importação */
+        .import-container {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 2px dashed var(--fifa-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .import-title { font-weight: bold; color: var(--fifa-blue); }
+        .btn-import {
+            background-color: var(--fifa-blue); color: white; border: none;
+            padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .btn-import:hover { background-color: #001838; }
+
+        .search-container { display: flex; justify-content: center; margin-bottom: 25px; }
+        .search-bar {
+            width: 100%; max-width: 500px; padding: 12px 20px; font-size: 1rem;
+            border: 2px solid var(--fifa-blue); border-radius: 30px; outline: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s;
+        }
+        .search-bar:focus { border-color: var(--fifa-green); box-shadow: 0 4px 12px rgba(0, 177, 89, 0.2); }
+        
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 12px 24px; background-color: #fff; border: 2px solid var(--fifa-blue);
+            color: var(--fifa-blue); border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover { background-color: var(--fifa-blue); color: white; }
+        .tab-btn.btn-danger { border-color: #dc3545; color: #dc3545; opacity: 0.5; cursor: not-allowed; }
+        
+        .groups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 25px; }
+        .group-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); border-top: 6px solid var(--fifa-green); }
+        .knockout-card { border-top: 6px solid var(--fifa-yellow); margin-bottom: 30px;}
+        .knockout-title { font-size: 1.4rem; color: var(--fifa-blue); font-weight: bold; margin-bottom: 15px; width: 100%; grid-column: 1 / -1; border-bottom: 3px solid var(--fifa-yellow); padding-bottom: 5px;}
+
+        .group-header { text-align: center; font-size: 1.3rem; margin-bottom: 5px; font-weight: bold; color: var(--fifa-blue); }
+        .group-subheader { text-align: center; font-size: 0.95rem; color: #64748b; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .legenda { font-size: 0.8rem; color: #64748b; text-align: center; margin-bottom: 10px; font-style: italic; }
+
+        .match-block {
+            background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;
+            margin-bottom: 15px; padding: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .match-info-bar { text-align: center; font-size: 0.75rem; color: #64748b; font-weight: 500; margin-bottom: 12px; background: #f8fafc; padding: 4px; border-radius: 4px; }
+        .match-row-real { display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem; font-weight: 600; }
+        .match-row-palpite {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-size: 0.8rem; color: #555; background-color: #e4e4e7;
+            margin-top: 12px; padding: 6px 10px; border-radius: 4px; border: 1px dashed #a1a1aa;
+        }
+        
+        .team-display-container { display: flex; flex-direction: column; width: 38%; }
+        .team-left { align-items: flex-end; text-align: right; }
+        .team-right { align-items: flex-start; text-align: left; }
+        
+        .slot-indicator { font-size: 0.7rem; color: #94a3b8; font-weight: bold; margin-bottom: 2px; }
+        
+        .actual-team-input {
+            width: 100%; border: none; border-bottom: 1px solid #cbd5e1; font-size: 0.95rem; 
+            padding: 2px 0; outline: none; font-weight: bold; background: transparent; color: var(--fifa-blue);
+            transition: 0.2s;
+        }
+        .actual-team-input:focus { border-bottom-color: var(--fifa-green); }
+        
+        select.actual-team-input { cursor: pointer; color: var(--fifa-blue); }
+        select.actual-team-input option, select.actual-team-input optgroup { background-color: #fff; color: #333; text-align: left; font-size: 0.9rem;}
+        select.actual-team-input optgroup { font-weight: bold; color: var(--fifa-blue); }
+        
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+        .text-center { text-align: center; }
+
+        .score-real-center { display: flex; align-items: center; gap: 6px; }
+        .score-input-real {
+            width: 36px; text-align: center; padding: 5px; font-size: 1rem; font-weight: bold;
+            border: 2px solid var(--fifa-green); background-color: rgba(0, 177, 89, 0.03); border-radius: 6px;
+        }
+        .score-input-palpite {
+            width: 30px; text-align: center; padding: 2px; font-size: 0.85rem; font-weight: bold;
+            border: 1px solid #a1a1aa; background-color: #fff; border-radius: 4px;
+        }
+        .vs-text { font-size: 0.75rem; color: #94a3b8; font-weight: bold; }
+
+        .table-ranking { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9rem; }
+        .table-ranking th, .table-ranking td { border: 1px solid #e2e8f0; padding: 8px; text-align: center; }
+        .table-ranking th { background-color: var(--fifa-blue); color: white; font-weight: bold; }
+        
+        .chart-box {
+            background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border-top: 6px solid var(--fifa-blue); height: 950px; position: relative;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Simulador Interativo <span>Copa 2026</span></h1>
-        <p>Seus resultados são <b>salvos automaticamente</b> no seu navegador!</p>
+        <h1>Acompanhamento e Simulador Interativo <span>Copa 2026</span></h1>
+        <p>Preencha os jogos dos Grupos. O sistema puxará automaticamente as seleções classificadas para as Vagas da Fase Eliminatória.</p>
     </header>
+
+    <div class="import-container">
+        <span class="import-title">🔄 Sincronizar Resultados Externos:</span>
+        <input type="file" id="jsonFileInput" accept=".json">
+        <button class="btn-import" onclick="importarResultadosJSON()">Atualizar via Botão Push</button>
+    </div>
 
     <div class="search-container">
         <input type="text" id="teamSearch" class="search-bar" placeholder="🔍 Filtrar por seleção..." oninput="filterMatches()">
@@ -65,241 +155,116 @@
         <button class="tab-btn active" onclick="switchTab('jogos', this)">Fase de Grupos</button>
         <button class="tab-btn" onclick="switchTab('mata-mata', this)">Fases Eliminatórias</button>
         <button class="tab-btn" onclick="switchTab('classificacao', this)">Tabelas dos Grupos</button>
-        <button class="tab-btn" onclick="switchTab('graficos', this)">Gráficos & Progresso</button>
-        <button class="tab-btn btn-danger" onclick="clearData()">🗑️ Limpar Tudo</button>
+        <button class="tab-btn" onclick="switchTab('graficos', this)">Gráficos & Progresso Geral</button>
+        <button class="tab-btn btn-danger" disabled title="Função desativada temporariamente">🗑️ Limpar Dados</button>
     </div>
 
-    <div id="jogos" class="tab-content active"><div class="groups-grid" id="groups-container"></div></div>
-    <div id="mata-mata" class="tab-content"><div class="groups-grid" id="knockout-container"></div></div>
-    <div id="classificacao" class="tab-content"><div class="groups-grid" id="tables-container"></div></div>
+    <div id="jogos" class="tab-content active">
+        <div class="groups-grid" id="groups-container"></div>
+    </div>
+
+    <div id="mata-mata" class="tab-content">
+        <div class="groups-grid" id="knockout-container"></div>
+    </div>
+
+    <div id="classificacao" class="tab-content">
+        <div class="groups-grid" id="tables-container"></div>
+    </div>
+
     <div id="graficos" class="tab-content">
         <div class="chart-box">
-            <h3 style="text-align: center; color: var(--fifa-blue); margin-top: 0;">Estágio Máximo Alcançado por Cada Seleção</h3>
-            <div style="position: relative; height: 880px; width: 100%;"><canvas id="rankingChart"></canvas></div>
+            <h3 style="text-align: center; color: var(--fifa-blue); margin-top: 0;">Estágio Máximo Alcançado por Cada Seleção (Real)</h3>
+            <div style="position: relative; height: 880px; width: 100%;">
+                <canvas id="rankingChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
-<!-- Nova funcionalidade de Importação -->
-    <div class="import-box">
-        <label>Importar resultados (Arquivo JSON): </label>
-        <input type="file" id="jsonInput" accept=".json">
-        <button onclick="processarArquivoJSON()">Carregar Resultados</button>
-    </div>
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('jogos', this)">Fase de Grupos</button>
-        <button class="tab-btn" onclick="switchTab('graficos', this)">Gráficos</button>
-    </div>
-    <div id="jogos" class="tab-content active"><div id="groups-container"></div></div>
-    <div id="graficos" class="tab-content"><canvas id="rankingChart"></canvas></div>
-</div>
-    
+
 <script>
-    // Bando de dados inicial
-    const defaultGroupDatabase = {
-        "A": { teams: ["México", "Coreia do Sul", "República Checa", "África do Sul"], matches: [
-            { id: "a1", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "África do Sul", date: "11/06/2026", time: "17:00", venue: "Estádio Azteca, C. do México" },
-            { id: "a2", teamA: "Coreia do Sul", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "República Checa", date: "11/06/2026", time: "20:00", venue: "Estádio Akron, Guadalajara" },
-            { id: "a3", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "África do Sul", date: "15/06/2026", time: "16:00", venue: "Estádio BBVA, Monterrey" },
-            { id: "a4", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Coreia do Sul", date: "15/06/2026", time: "19:00", venue: "Estádio Azteca, C. do México" },
-            { id: "a5", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "México", date: "18/06/2026", time: "18:00", venue: "Estádio Akron, Guadalajara" },
-            { id: "a6", teamA: "África do Sul", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Coreia do Sul", date: "18/06/2026", time: "18:00", venue: "Estádio BBVA, Monterrey" }] },
-        "B": { teams: ["Suíça", "Canadá", "Bósnia", "Catar"], matches: [
-            { id: "b1", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Bósnia", date: "12/06/2026", time: "16:00", venue: "BMO Field, Toronto" },
-            { id: "b2", teamA: "Catar", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Suíça", date: "12/06/2026", time: "19:00", venue: "BC Place, Vancouver" },
-            { id: "b3", teamA: "Suíça", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Bósnia", date: "16/06/2026", time: "16:00", venue: "Lumen Field, Seattle" },
-            { id: "b4", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Catar", date: "16/06/2026", time: "19:00", venue: "BMO Field, Toronto" },
-            { id: "b5", teamA: "Suíça", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Canadá", date: "19/06/2026", time: "18:00", venue: "BC Place, Vancouver" },
-            { id: "b6", teamA: "Bósnia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Catar", date: "19/06/2026", time: "18:00", venue: "Lumen Field, Seattle" }] },
-        "C": { teams: ["Brasil", "Marrocos", "Escócia", "Haiti"], matches: [
-            { id: "c1", teamA: "Brasil", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Marrocos", date: "13/06/2026", time: "15:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "c2", teamA: "Haiti", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Escócia", date: "13/06/2026", time: "18:00", venue: "Levi's Stadium, S. Francisco" },
-            { id: "c3", teamA: "Escócia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Marrocos", date: "17/06/2026", time: "15:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "c4", teamA: "Brasil", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Haiti", date: "17/06/2026", time: "18:00", venue: "Levi's Stadium, S. Francisco" },
-            { id: "c5", teamA: "Escócia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Brasil", date: "20/06/2026", time: "17:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "c6", teamA: "Marrocos", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Haiti", date: "20/06/2026", time: "17:00", venue: "Levi's Stadium, S. Francisco" }] },
-        "D": { teams: ["EUA", "Turquia", "Austrália", "Paraguai"], matches: [
-            { id: "d1", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Paraguai", date: "12/06/2026", time: "15:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "d2", teamA: "Austrália", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Turquia", date: "12/06/2026", time: "18:00", venue: "Lumen Field, Seattle" },
-            { id: "d3", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Austrália", date: "16/06/2026", time: "15:00", venue: "Lumen Field, Seattle" },
-            { id: "d4", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Paraguai", date: "16/06/2026", time: "18:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "d5", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "EUA", date: "21/06/2026", time: "17:00", venue: "Lumen Field, Seattle" },
-            { id: "d6", teamA: "Paraguai", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Austrália", date: "21/06/2026", time: "17:00", venue: "SoFi Stadium, Los Angeles" }] },
-        "E": { teams: ["Alemanha", "Equador", "Costa do Marfim", "Curaçao"], matches: [
-            { id: "e1", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Curaçao", date: "13/06/2026", time: "16:00", venue: "MetLife Stadium, Nova York" },
-            { id: "e2", teamA: "Costa do Marfim", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Equador", date: "13/06/2026", time: "19:00", venue: "Gillette Stadium, Boston" },
-            { id: "e3", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Costa do Marfim", date: "17/06/2026", time: "16:00", venue: "MetLife Stadium, Nova York" },
-            { id: "e4", teamA: "Equador", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Curaçao", date: "17/06/2026", time: "19:00", venue: "Gillette Stadium, Boston" },
-            { id: "e5", teamA: "Equador", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Alemanha", date: "22/06/2026", time: "18:00", venue: "MetLife Stadium, Nova York" },
-            { id: "e6", teamA: "Curaçao", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Costa do Marfim", date: "22/06/2026", time: "18:00", venue: "Gillette Stadium, Boston" }] },
-        "F": { teams: ["Holanda", "Japão", "Suécia", "Tunísia"], matches: [
-            { id: "f1", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Japão", date: "14/06/2026", time: "15:00", venue: "Mercedes-Benz, Atlanta" },
-            { id: "f2", teamA: "Suécia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Tunísia", date: "14/06/2026", time: "18:00", venue: "Hard Rock Stadium, Miami" },
-            { id: "f3", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Suécia", date: "18/06/2026", time: "15:00", venue: "Hard Rock Stadium, Miami" },
-            { id: "f4", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Japão", date: "18/06/2026", time: "18:00", venue: "Mercedes-Benz, Atlanta" },
-            { id: "f5", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Holanda", date: "23/06/2026", time: "17:00", venue: "Mercedes-Benz, Atlanta" },
-            { id: "f6", teamA: "Japão", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Suécia", date: "23/06/2026", time: "17:00", venue: "Hard Rock Stadium, Miami" }] },
-        "G": { teams: ["Bélgica", "Irã", "Egito", "Nova Zelândia"], matches: [
-            { id: "g1", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Egito", date: "14/06/2026", time: "16:00", venue: "AT&T Stadium, Dallas" },
-            { id: "g2", teamA: "Irã", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Nova Zelândia", date: "14/06/2026", time: "19:00", venue: "NRG Stadium, Houston" },
-            { id: "g3", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Irã", date: "19/06/2026", time: "16:00", venue: "AT&T Stadium, Dallas" },
-            { id: "g4", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Egito", date: "19/06/2026", time: "19:00", venue: "NRG Stadium, Houston" },
-            { id: "g5", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Bélgica", date: "24/06/2026", time: "18:00", venue: "AT&T Stadium, Dallas" },
-            { id: "g6", teamA: "Egito", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Irã", date: "24/06/2026", time: "18:00", venue: "NRG Stadium, Houston" }] },
-        "H": { teams: ["Espanha", "Uruguai", "Arábia Saudita", "Cabo Verde"], matches: [
-            { id: "h1", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Cabo Verde", date: "15/06/2026", time: "15:00", venue: "Lincoln Financial, Filadélfia" },
-            { id: "h2", teamA: "Arábia Saudita", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Uruguai", date: "15/06/2026", time: "18:00", venue: "MetLife Stadium, Nova York" },
-            { id: "h3", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Arábia Saudita", date: "20/06/2026", time: "15:00", venue: "Lincoln Financial, Filadélfia" },
-            { id: "h4", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Cabo Verde", date: "20/06/2026", time: "18:00", venue: "MetLife Stadium, Nova York" },
-            { id: "h5", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Espanha", date: "25/06/2026", time: "17:00", venue: "Lincoln Financial, Filadélfia" },
-            { id: "h6", teamA: "Cabo Verde", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Arábia Saudita", date: "25/06/2026", time: "17:00", venue: "MetLife Stadium, Nova York" }] },
-        "I": { teams: ["França", "Noruega", "Senegal", "Iraque"], matches: [
-            { id: "i1", teamA: "França", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Senegal", date: "15/06/2026", time: "16:00", venue: "Gillette Stadium, Boston" },
-            { id: "i2", teamA: "Iraque", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Noruega", date: "15/06/2026", time: "19:00", venue: "BMO Field, Toronto" },
-            { id: "i3", teamA: "França", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Iraque", date: "21/06/2026", time: "16:00", venue: "Gillette Stadium, Boston" },
-            { id: "i4", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Senegal", date: "21/06/2026", time: "19:00", venue: "BMO Field, Toronto" },
-            { id: "i5", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "França", date: "26/06/2026", time: "18:00", venue: "Gillette Stadium, Boston" },
-            { id: "i6", teamA: "Senegal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Iraque", date: "26/06/2026", time: "18:00", venue: "BMO Field, Toronto" }] },
-        "J": { teams: ["Argentina", "Áustria", "Argélia", "Jordânia"], matches: [
-            { id: "j1", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Argélia", date: "16/06/2026", time: "15:00", venue: "Hard Rock Stadium, Miami" },
-            { id: "j2", teamA: "Áustria", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Jordânia", date: "16/06/2026", time: "18:00", venue: "Mercedes-Benz, Atlanta" },
-            { id: "j3", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Áustria", date: "22/06/2026", time: "15:00", venue: "Hard Rock Stadium, Miami" },
-            { id: "j4", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Argélia", date: "22/06/2026", time: "18:00", venue: "Mercedes-Benz, Atlanta" },
-            { id: "j5", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Argentina", date: "27/06/2026", time: "17:00", venue: "Hard Rock Stadium, Miami" },
-            { id: "j6", teamA: "Argélia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Áustria", date: "27/06/2026", time: "17:00", venue: "Mercedes-Benz, Atlanta" }] },
-        "K": { teams: ["Portugal", "Colômbia", "Uzbequistão", "RD Congo"], matches: [
-            { id: "k1", teamA: "Portugal", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "RD Congo", date: "16/06/2026", time: "16:00", venue: "Arrowhead, Kansas City" },
-            { id: "k2", teamA: "Uzbequistão", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Colômbia", date: "16/06/2026", time: "19:00", venue: "AT&T Stadium, Dallas" },
-            { id: "k3", teamA: "Portugal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Uzbequistão", date: "23/06/2026", time: "16:00", venue: "Arrowhead, Kansas City" },
-            { id: "k4", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "RD Congo", date: "23/06/2026", time: "19:00", venue: "AT&T Stadium, Dallas" },
-            { id: "k5", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Portugal", date: "27/06/2026", time: "18:00", venue: "Arrowhead, Kansas City" },
-            { id: "k6", teamA: "RD Congo", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Uzbequistão", date: "27/06/2026", time: "18:00", venue: "AT&T Stadium, Dallas" }] },
-        "L": { teams: ["Inglaterra", "Croácia", "Gana", "Panamá"], matches: [
-            { id: "l1", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Croácia", date: "17/06/2026", time: "15:00", venue: "Levi's Stadium, S. Francisco" },
-            { id: "l2", teamA: "Gana", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Panamá", date: "17/06/2026", time: "18:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "l3", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Gana", date: "24/06/2026", time: "15:00", venue: "Levi's Stadium, S. Francisco" },
-            { id: "l4", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Croácia", date: "24/06/2026", time: "18:00", venue: "SoFi Stadium, Los Angeles" },
-            { id: "l5", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Inglaterra", date: "27/06/2026", time: "19:00", venue: "Levi's Stadium, S. Francisco" },
-            { id: "l6", teamA: "Croácia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Gana", date: "27/06/2026", time: "19:00", venue: "SoFi Stadium, Los Angeles" }] }
+    // Estrutura Base de Dados Primária
+    const groupDatabase = {
+        "A": { teams: ["México", "Coreia do Sul", "República Checa", "África do Sul"], matches: [{ id: "a1", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "África do Sul" }, { id: "a2", teamA: "Coreia do Sul", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "República Checa" }, { id: "a3", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "África do Sul" }, { id: "a4", teamA: "México", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Coreia do Sul" }, { id: "a5", teamA: "República Checa", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "México" }, { id: "a6", teamA: "África do Sul", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Coreia do Sul" }] },
+        "B": { teams: ["Suíça", "Canadá", "Bósnia", "Catar"], matches: [{ id: "b1", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Bósnia" }, { id: "b2", teamA: "Catar", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Suíça" }, { id: "b3", teamA: "Suíça", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Bósnia" }, { id: "b4", teamA: "Canadá", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Catar" }, { id: "b5", teamA: "Suíça", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Canadá" }, { id: "b6", teamA: "Bósnia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Catar" }] },
+        "C": { teams: ["Brasil", "Marrocos", "Escócia", "Haiti"], matches: [{ id: "c1", teamA: "Brasil", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Marrocos" }, { id: "c2", teamA: "Haiti", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Escócia" }, { id: "c3", teamA: "Escócia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Marrocos" }, { id: "c4", teamA: "Brasil", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Haiti" }, { id: "c5", teamA: "Escócia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Brasil" }, { id: "c6", teamA: "Marrocos", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Haiti" }] },
+        "D": { teams: ["EUA", "Turquia", "Austrália", "Paraguai"], matches: [{ id: "d1", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Paraguai" }, { id: "d2", teamA: "Austrália", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Turquia" }, { id: "d3", teamA: "EUA", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Austrália" }, { id: "d4", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Paraguai" }, { id: "d5", teamA: "Turquia", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "EUA" }, { id: "d6", teamA: "Paraguai", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Austrália" }] },
+        "E": { teams: ["Alemanha", "Equador", "Costa do Marfim", "Curaçao"], matches: [{ id: "e1", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 4, pB: 0, teamB: "Curaçao" }, { id: "e2", teamA: "Costa do Marfim", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Equador" }, { id: "e3", teamA: "Alemanha", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Costa do Marfim" }, { id: "e4", teamA: "Equador", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Curaçao" }, { id: "e5", teamA: "Equador", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Alemanha" }, { id: "e6", teamA: "Curaçao", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Costa do Marfim" }] },
+        "F": { teams: ["Holanda", "Japão", "Suécia", "Tunísia"], matches: [{ id: "f1", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Japão" }, { id: "f2", teamA: "Suécia", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Tunísia" }, { id: "f3", teamA: "Holanda", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Suécia" }, { id: "f4", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Japão" }, { id: "f5", teamA: "Tunísia", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Holanda" }, { id: "f6", teamA: "Japão", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Suécia" }] },
+        "G": { teams: ["Bélgica", "Irã", "Egito", "Nova Zelândia"], matches: [{ id: "g1", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Egito" }, { id: "g2", teamA: "Irã", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Nova Zelândia" }, { id: "g3", teamA: "Bélgica", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Irã" }, { id: "g4", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Egito" }, { id: "g5", teamA: "Nova Zelândia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Bélgica" }, { id: "g6", teamA: "Egito", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Irã" }] },
+        "H": { teams: ["Espanha", "Uruguai", "Arábia Saudita", "Cabo Verde"], matches: [{ id: "h1", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Cabo Verde" }, { id: "h2", teamA: "Arábia Saudita", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Uruguai" }, { id: "h3", teamA: "Espanha", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Arábia Saudita" }, { id: "h4", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Cabo Verde" }, { id: "h5", teamA: "Uruguai", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Espanha" }, { id: "h6", teamA: "Cabo Verde", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Arábia Saudita" }] },
+        "I": { teams: ["França", "Noruega", "Senegal", "Iraque"], matches: [{ id: "i1", teamA: "França", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Senegal" }, { id: "i2", teamA: "Iraque", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Noruega" }, { id: "i3", teamA: "França", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "Iraque" }, { id: "i4", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Senegal" }, { id: "i5", teamA: "Noruega", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "França" }, { id: "i6", teamA: "Senegal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Iraque" }] },
+        "J": { teams: ["Argentina", "Áustria", "Argélia", "Jordânia"], matches: [{ id: "j1", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Argélia" }, { id: "j2", teamA: "Áustria", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Jordânia" }, { id: "j3", teamA: "Argentina", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Áustria" }, { id: "j4", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 1, teamB: "Argélia" }, { id: "j5", teamA: "Jordânia", scoreA: "", scoreB: "", pA: 0, pB: 3, teamB: "Argentina" }, { id: "j6", teamA: "Argélia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Áustria" }] },
+        "K": { teams: ["Portugal", "Colômbia", "Uzbequistão", "RD Congo"], matches: [{ id: "k1", teamA: "Portugal", scoreA: "", scoreB: "", pA: 3, pB: 0, teamB: "RD Congo" }, { id: "k2", teamA: "Uzbequistão", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Colômbia" }, { id: "k3", teamA: "Portugal", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Uzbequistão" }, { id: "k4", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "RD Congo" }, { id: "k5", teamA: "Colômbia", scoreA: "", scoreB: "", pA: 1, pB: 2, teamB: "Portugal" }, { id: "k6", teamA: "RD Congo", scoreA: "", scoreB: "", pA: 1, pB: 1, teamB: "Uzbequistão" }] },
+        "L": { teams: ["Inglaterra", "Croácia", "Gana", "Panamá"], matches: [{ id: "l1", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Croácia" }, { id: "l2", teamA: "Gana", scoreA: "", scoreB: "", pA: 1, pB: 0, teamB: "Panamá" }, { id: "l3", teamA: "Inglaterra", scoreA: "", scoreB: "", pA: 2, pB: 0, teamB: "Gana" }, { id: "l4", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Croácia" }, { id: "l5", teamA: "Panamá", scoreA: "", scoreB: "", pA: 0, pB: 2, teamB: "Inglaterra" }, { id: "l6", teamA: "Croácia", scoreA: "", scoreB: "", pA: 2, pB: 1, teamB: "Gana" }] }
     };
 
-    const defaultKnockoutPhases = {
-        "Segunda Fase": { desc: "32 Equipes Classificadas", prefix: "Jogo", matches: [
-            { id: "m32_1", teamA: "1º Grupo A", teamB: "3º Grupo C/D/E", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "28/06/2026", time: "16:00", venue: "SoFi Stadium, Los Angeles", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 0 } },
-            { id: "m32_2", teamA: "2º Grupo A", teamB: "2º Grupo B", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "28/06/2026", time: "19:00", venue: "Levi's Stadium, S. Francisco", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 0 } },
-            { id: "m32_3", teamA: "1º Grupo B", teamB: "3º Grupo A/E/F", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "29/06/2026", time: "16:00", venue: "Lumen Field, Seattle", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 1 } },
-            { id: "m32_4", teamA: "1º Grupo C", teamB: "3º Grupo F/G/H", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "29/06/2026", time: "19:00", venue: "Estádio Azteca, C. do México", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 1 } },
-            { id: "m32_5", teamA: "2º Grupo C", teamB: "2º Grupo D", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "30/06/2026", time: "16:00", venue: "MetLife Stadium, Nova York", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 2 } },
-            { id: "m32_6", teamA: "1º Grupo D", teamB: "3º Grupo I/J/K", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "30/06/2026", time: "19:00", venue: "Gillette Stadium, Boston", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 2 } },
-            { id: "m32_7", teamA: "1º Grupo E", teamB: "2º Grupo F", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "01/07/2026", time: "16:00", venue: "Mercedes-Benz, Atlanta", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 3 } },
-            { id: "m32_8", teamA: "1º Grupo F", teamB: "2º Grupo E", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "01/07/2026", time: "19:00", venue: "NRG Stadium, Houston", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 3 } },
-            { id: "m32_9", teamA: "1º Grupo G", teamB: "3º Grupo A/B/C", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "02/07/2026", time: "16:00", venue: "AT&T Stadium, Dallas", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 4 } },
-            { id: "m32_10", teamA: "2º Grupo G", teamB: "2º Grupo H", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "02/07/2026", time: "19:00", venue: "Arrowhead, Kansas City", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 4 } },
-            { id: "m32_11", teamA: "1º Grupo H", teamB: "3º Grupo J/K/L", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "03/07/2026", time: "16:00", venue: "Hard Rock Stadium, Miami", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 5 } },
-            { id: "m32_12", teamA: "1º Grupo I", teamB: "3º Grupo D/E/F", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "03/07/2026", time: "19:00", venue: "BC Place, Vancouver", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 5 } },
-            { id: "m32_13", teamA: "2º Grupo I", teamB: "2º Grupo J", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "04/07/2026", time: "16:00", venue: "Lincoln Financial, Filadélfia", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 6 } },
-            { id: "m32_14", teamA: "1º Grupo J", teamB: "3º Grupo G/H/I", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "04/07/2026", time: "19:00", venue: "BMO Field, Toronto", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 6 } },
-            { id: "m32_15", teamA: "1º Grupo K", teamB: "2º Grupo L", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "05/07/2026", time: "16:00", venue: "Estádio BBVA, Monterrey", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 7 } },
-            { id: "m32_16", teamA: "1º Grupo L", teamB: "2º Grupo K", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "05/07/2026", time: "19:00", venue: "Estádio Akron, Guadalajara", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 7 } }
-        ]},
+    const knockoutPhases = {
+        "Segunda Fase": {
+            desc: "32 Equipes Classificadas", prefix: "Jogo",
+            matches: [
+                { id: "m32_1", teamA: "1º Grupo A", teamB: "3º Grupo C/D/E", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "28/06/2026", venue: "SoFi Stadium, Los Angeles", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 0 } },
+                { id: "m32_2", teamA: "2º Grupo A", teamB: "2º Grupo B", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "28/06/2026", venue: "Stanford Stadium, San Francisco", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 0 } },
+                { id: "m32_3", teamA: "1º Grupo B", teamB: "3º Grupo A/E/F", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "29/06/2026", venue: "Lumen Field, Seattle", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 1 } },
+                { id: "m32_4", teamA: "1º Grupo C", teamB: "3º Grupo F/G/H", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "29/06/2026", venue: "Estádio Azteca, Cidade do México", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 1 } },
+                { id: "m32_5", teamA: "2º Grupo C", teamB: "2º Grupo D", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "30/06/2026", venue: "MetLife Stadium, Nova York", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 2 } },
+                { id: "m32_6", teamA: "1º Grupo D", teamB: "3º Grupo I/J/K", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "30/06/2026", venue: "Gillette Stadium, Boston", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 2 } },
+                { id: "m32_7", teamA: "1º Grupo E", teamB: "2º Grupo F", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "01/07/2026", venue: "Mercedes-Benz Stadium, Atlanta", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 3 } },
+                { id: "m32_8", teamA: "1º Grupo F", teamB: "2º Grupo E", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "01/07/2026", venue: "NRG Stadium, Houston", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 3 } },
+                { id: "m32_9", teamA: "1º Grupo G", teamB: "3º Grupo A/B/C", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "02/07/2026", venue: "AT&T Stadium, Dallas", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 4 } },
+                { id: "m32_10", teamA: "2º Grupo G", teamB: "2º Grupo H", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "02/07/2026", venue: "Arrowhead Stadium, Kansas City", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 4 } },
+                { id: "m32_11", teamA: "1º Grupo H", teamB: "3º Grupo J/K/L", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "03/07/2026", venue: "Hard Rock Stadium, Miami", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 5 } },
+                { id: "m32_12", teamA: "1º Grupo I", teamB: "3º Grupo D/E/F", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "03/07/2026", venue: "BC Place, Vancouver", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 5 } },
+                { id: "m32_13", teamA: "2º Grupo I", teamB: "2º Grupo J", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "04/07/2026", venue: "Lincoln Financial Field, Filadélfia", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 6 } },
+                { id: "m32_14", teamA: "1º Grupo J", teamB: "3º Grupo G/H/I", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "04/07/2026", venue: "BMO Field, Toronto", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 6 } },
+                { id: "m32_15", teamA: "1º Grupo K", teamB: "2º Grupo L", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "05/07/2026", venue: "Estádio BBVA, Monterrey", nextMatch: { phase: "Oitavas de Final", slot: "actualA", matchIndex: 7 } },
+                { id: "m32_16", teamA: "1º Grupo L", teamB: "2º Grupo K", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "05/07/2026", venue: "Estádio Akron, Guadalajara", nextMatch: { phase: "Oitavas de Final", slot: "actualB", matchIndex: 7 } }
+            ]
+        },
         "Oitavas de Final": {
-            desc: "16 Equipes Classificadas", prefix: "Oitavas", matches: [
-            { id: "m16_1", teamA: "Venc. Jogo 1 - 2a Fase", teamB: "Venc. Jogo 2 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "07/07/2026", time: "16:00", venue: "Estádio Azteca, C. do México", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 0 } },
-            { id: "m16_2", teamA: "Venc. Jogo 3 - 2a Fase", teamB: "Venc. Jogo 4 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "07/07/2026", time: "19:00", venue: "NRG Stadium, Houston", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 0 } },
-            { id: "m16_3", teamA: "Venc. Jogo 5 - 2a Fase", teamB: "Venc. Jogo 6 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "08/07/2026", time: "16:00", venue: "AT&T Stadium, Dallas", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 1 } },
-            { id: "m16_4", teamA: "Venc. Jogo 7 - 2a Fase", teamB: "Venc. Jogo 8 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "08/07/2026", time: "19:00", venue: "Mercedes-Benz, Atlanta", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 1 } },
-            { id: "m16_5", teamA: "Venc. Jogo 9 - 2a Fase", teamB: "Venc. Jogo 10 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "09/07/2026", time: "16:00", venue: "Lumen Field, Seattle", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 2 } },
-            { id: "m16_6", teamA: "Venc. Jogo 11 - 2a Fase", teamB: "Venc. Jogo 12 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "09/07/2026", time: "19:00", venue: "Hard Rock Stadium, Miami", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 2 } },
-            { id: "m16_7", teamA: "Venc. Jogo 13 - 2a Fase", teamB: "Venc. Jogo 14 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "10/07/2026", time: "16:00", venue: "MetLife Stadium, Nova York", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 3 } },
-            { id: "m16_8", teamA: "Venc. Jogo 15 - 2a Fase", teamB: "Venc. Jogo 16 - 2a Fase", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "10/07/2026", time: "19:00", venue: "SoFi Stadium, Los Angeles", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 3 } }
-        ]},
+            desc: "16 Equipes Classificadas", prefix: "Oitavas",
+            matches: [
+                { id: "m16_1", teamA: "Venc. Jogo 1", teamB: "Venc. Jogo 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "07/07/2026", venue: "Estádio Azteca, México", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 0 } },
+                { id: "m16_2", teamA: "Venc. Jogo 3", teamB: "Venc. Jogo 4", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "07/07/2026", venue: "NRG Stadium, Houston", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 0 } },
+                { id: "m16_3", teamA: "Venc. Jogo 5", teamB: "Venc. Jogo 6", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "08/07/2026", venue: "AT&T Stadium, Dallas", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 1 } },
+                { id: "m16_4", teamA: "Venc. Jogo 7", teamB: "Venc. Jogo 8", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "08/07/2026", venue: "Mercedes-Benz Stadium, Atlanta", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 1 } },
+                { id: "m16_5", teamA: "Venc. Jogo 9", teamB: "Venc. Jogo 10", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "09/07/2026", venue: "Lumen Field, Seattle", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 2 } },
+                { id: "m16_6", teamA: "Venc. Jogo 11", teamB: "Venc. Jogo 12", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "09/07/2026", venue: "Hard Rock Stadium, Miami", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 2 } },
+                { id: "m16_7", teamA: "Venc. Jogo 13", teamB: "Venc. Jogo 14", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "10/07/2026", venue: "MetLife Stadium, NY", nextMatch: { phase: "Quartas de Final", slot: "actualA", matchIndex: 3 } },
+                { id: "m16_8", teamA: "Venc. Jogo 15", teamB: "Venc. Jogo 16", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "10/07/2026", venue: "SoFi Stadium, Los Angeles", nextMatch: { phase: "Quartas de Final", slot: "actualB", matchIndex: 3 } }
+            ]
+        },
         "Quartas de Final": {
-            desc: "8 Equipes Classificadas", prefix: "Quartas", matches: [
-            { id: "m8_1", teamA: "Venc. Oitavas 1", teamB: "Venc. Oitavas 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "14/07/2026", time: "16:00", venue: "Gillette Stadium, Boston", nextMatch: { phase: "Semifinais", slot: "actualA", matchIndex: 0 } },
-            { id: "m8_2", teamA: "Venc. Oitavas 3", teamB: "Venc. Oitavas 4", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "15/07/2026", time: "19:00", venue: "Arrowhead, Kansas City", nextMatch: { phase: "Semifinais", slot: "actualB", matchIndex: 0 } },
-            { id: "m8_3", teamA: "Venc. Oitavas 5", teamB: "Venc. Oitavas 6", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "16/07/2026", time: "16:00", venue: "Hard Rock Stadium, Miami", nextMatch: { phase: "Semifinais", slot: "actualA", matchIndex: 1 } },
-            { id: "m8_4", teamA: "Venc. Oitavas 7", teamB: "Venc. Oitavas 8", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "17/07/2026", time: "19:00", venue: "SoFi Stadium, Los Angeles", nextMatch: { phase: "Semifinais", slot: "actualB", matchIndex: 1 } }
-        ]},
+            desc: "8 Equipes Classificadas", prefix: "Quartas",
+            matches: [
+                { id: "m8_1", teamA: "Venc. Oitavas 1", teamB: "Venc. Oitavas 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "14/07/2026", venue: "Gillette Stadium, Boston", nextMatch: { phase: "Semifinais", slot: "actualA", matchIndex: 0 } },
+                { id: "m8_2", teamA: "Venc. Oitavas 3", teamB: "Venc. Oitavas 4", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "15/07/2026", venue: "Arrowhead Stadium, Kansas", nextMatch: { phase: "Semifinais", slot: "actualB", matchIndex: 0 } },
+                { id: "m8_3", teamA: "Venc. Oitavas 5", teamB: "Venc. Oitavas 6", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "16/07/2026", venue: "Hard Rock Stadium, Miami", nextMatch: { phase: "Semifinais", slot: "actualA", matchIndex: 1 } },
+                { id: "m8_4", teamA: "Venc. Oitavas 7", teamB: "Venc. Oitavas 8", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "17/07/2026", venue: "SoFi Stadium, LA", nextMatch: { phase: "Semifinais", slot: "actualB", matchIndex: 1 } }
+            ]
+        },
         "Semifinais": {
-            desc: "4 Equipes Classificadas", prefix: "Semi", matches: [
-            { id: "m4_1", teamA: "Venc. Quartas 1", teamB: "Venc. Quartas 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "21/07/2026", time: "20:00", venue: "NRG Stadium, Houston", nextMatch: { phase: "Grande Final", slot: "actualA", matchIndex: 0 }, looseMatch: { phase: "Terceiro Lugar", slot: "actualA", matchIndex: 0 } },
-            { id: "m4_2", teamA: "Venc. Quartas 3", teamB: "Venc. Quartas 4", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "22/07/2026", time: "20:00", venue: "Mercedes-Benz, Atlanta", nextMatch: { phase: "Grande Final", slot: "actualB", matchIndex: 0 }, looseMatch: { phase: "Terceiro Lugar", slot: "actualB", matchIndex: 0 } }
-        ]},
+            desc: "4 Equipes Classificadas", prefix: "Semi",
+            matches: [
+                { id: "m4_1", teamA: "Venc. Quartas 1", teamB: "Venc. Quartas 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "21/07/2026", venue: "NRG Stadium, Houston", nextMatch: { phase: "Grande Final", slot: "actualA", matchIndex: 0 }, looseMatch: { phase: "Terceiro Lugar", slot: "actualA", matchIndex: 0 } },
+                { id: "m4_2", teamA: "Venc. Quartas 3", teamB: "Venc. Quartas 4", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "22/07/2026", venue: "Mercedes-Benz Stadium", nextMatch: { phase: "Grande Final", slot: "actualB", matchIndex: 0 }, looseMatch: { phase: "Terceiro Lugar", slot: "actualB", matchIndex: 0 } }
+            ]
+        },
         "Terceiro Lugar": {
-            desc: "Disputa do Bronze", prefix: "Disputa", matches: [
-            { id: "m3l_1", teamA: "Perd. Semi 1", teamB: "Perd. Semi 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "25/07/2026", time: "18:00", venue: "Hard Rock Stadium, Miami", nextMatch: null }
-        ]},
+            desc: "Disputa do Bronze", prefix: "Disputa",
+            matches: [
+                { id: "m3l_1", teamA: "Perd. Semi 1", teamB: "Perd. Semi 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "25/07/2026", venue: "Hard Rock Stadium, Miami", nextMatch: null }
+            ]
+        },
         "Grande Final": {
-            desc: "Grande Decisão", prefix: "Final", matches: [
-            { id: "mf_1", teamA: "Venc. Semi 1", teamB: "Venc. Semi 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "19/07/2026", time: "15:00", venue: "MetLife Stadium, Nova York", nextMatch: null }
-        ]}
+            desc: "Grande Decisão", prefix: "Final",
+            matches: [
+                { id: "mf_1", teamA: "Venc. Semi 1", teamB: "Venc. Semi 2", actualA: "", actualB: "", scoreA: "", scoreB: "", pA: "", pB: "", date: "19/07/2026", venue: "MetLife Stadium, NY", nextMatch: null }
+            ]
+        }
     };
 
-    let groupDatabase = {};
-    let knockoutPhases = {};
     const phasesMapping = { 0: "Grupos", 1: "2ª Fase", 2: "Oitavas", 3: "Quartas", 4: "Semi", 5: "3º Lugar", 6: "Final" };
     let chartInstance = null;
-
-function processarArquivoJSON() {
-        const fileInput = document.getElementById('jsonInput');
-        if (!fileInput.files.length) return alert("Selecione um arquivo JSON primeiro!");
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const jogos = JSON.parse(e.target.result);
-            
-            jogos.forEach(item => {
-                const [timeA, timeB] = item.Jogo.split(" vs. ");
-                const [golsA, golsB] = item.Resultado.split(" - ");
-                
-                // Procura o jogo dentro dos grupos
-                for (let grupo in groupDatabase) {
-                    let match = groupDatabase[grupo].matches.find(m => 
-                        m.teamA.toLowerCase() === timeA.toLowerCase() && 
-                        m.teamB.toLowerCase() === timeB.toLowerCase()
-                    );
-                    
-                    if (match) {
-                        match.scoreA = parseInt(golsA);
-                        match.scoreB = parseInt(golsB);
-                    }
-                }
-            });
-
-            alert("Dados importados com sucesso!");
-            saveData();
-            location.reload(); // Recarrega para aplicar as mudanças
-        };
-        reader.readAsText(fileInput.files[0]);
-    }
-    
-    // ----- NOVIDADE: FUNÇÕES DE SALVAR E CARREGAR DADOS -----
-    function loadData() {
-        const savedGroups = localStorage.getItem('copa2026_groups');
-        const savedKnockout = localStorage.getItem('copa2026_knockout');
-        
-        if (savedGroups && savedKnockout) {
-            groupDatabase = JSON.parse(savedGroups);
-            knockoutPhases = JSON.parse(savedKnockout);
-        } else {
-            // Se não houver dados salvos, usa a estrutura padrão
-            groupDatabase = JSON.parse(JSON.stringify(defaultGroupDatabase));
-            knockoutPhases = JSON.parse(JSON.stringify(defaultKnockoutPhases));
-        }
-    }
-
-    function saveData() {
-        localStorage.setItem('copa2026_groups', JSON.stringify(groupDatabase));
-        localStorage.setItem('copa2026_knockout', JSON.stringify(knockoutPhases));
-    }
-
-    function clearData() {
-        if(confirm("Tem certeza que deseja apagar todos os seus palpites e recomeçar do zero?")) {
-            localStorage.removeItem('copa2026_groups');
-            localStorage.removeItem('copa2026_knockout');
-            location.reload();
-        }
-    }
-    // --------------------------------------------------------
 
     function switchTab(tabId, element) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -310,25 +275,20 @@ function processarArquivoJSON() {
         if(tabId === 'graficos') renderCharts();
     }
 
-    function buildTeamOptions(selectedValue) {
-        let html = `<option value="">Aguardando...</option>`;
-        for (const [groupLetter, groupData] of Object.entries(groupDatabase)) {
-            html += `<optgroup label="Grupo ${groupLetter}">`;
-            groupData.teams.forEach(t => { html += `<option value="${t}" ${t === selectedValue ? 'selected' : ''}>${t}</option>`; });
-            html += `</optgroup>`;
-        }
-        return html;
-    }
-
+    // Inicializar Fase de Grupos Visuais
     function initGroups() {
         const container = document.getElementById('groups-container');
-        if(!container) return; container.innerHTML = '';
+        if(!container) return; 
+        container.innerHTML = '';
+        
         for (const [groupLetter, groupData] of Object.entries(groupDatabase)) {
-            let groupHtml = `<div class="group-card" id="card_group_${groupLetter}"><div class="group-header">GRUPO ${groupLetter}</div>`;
+            let groupHtml = `<div class="group-card" id="card-group-${groupLetter}">
+                                <div class="group-header">GRUPO ${groupLetter}</div>
+                                <div class="group-subheader">${groupData.teams.join(' • ')}</div>`;
+            
             groupData.matches.forEach(match => {
                 groupHtml += `
                     <div class="match-block" data-teams="${match.teamA.toLowerCase()} ${match.teamB.toLowerCase()}">
-                        <div class="match-info-bar">${match.date} | ${match.time} | ${match.venue}</div>
                         <div class="match-row-real">
                             <span class="team-name-display team-left text-right" style="width:38%">${match.teamA}</span>
                             <div class="score-real-center">
@@ -350,75 +310,113 @@ function processarArquivoJSON() {
         }
     }
 
+    function buildTeamOptions(selectedValue) {
+        let html = `<option value="">Aguardando...</option>`;
+        for (const [groupLetter, groupData] of Object.entries(groupDatabase)) {
+            html += `<optgroup label="Grupo ${groupLetter}">`;
+            groupData.teams.forEach(t => {
+                html += `<option value="${t}" ${t === selectedValue ? 'selected' : ''}>${t}</option>`;
+            });
+            html += `</optgroup>`;
+        }
+        return html;
+    }
+
+    // Inicializar Blocos de Mata-Mata Visuais
     function initKnockout() {
         const container = document.getElementById('knockout-container');
-        if(!container) return; container.innerHTML = '';
-
+        if(!container) return; 
+        container.innerHTML = '';      
+        
         for (const [phaseName, phaseData] of Object.entries(knockoutPhases)) {
-            let phaseHtml = `<div class="group-card knockout-card"><div class="group-header">${phaseName}</div><div class="group-subheader">${phaseData.desc}</div>`;
+            let phaseHtml = `<div class="knockout-title">${phaseName.toUpperCase()} <span style="font-size:0.9rem; font-weight:normal; color:#64748b;">(${phaseData.desc})</span></div>`;
+            
             phaseData.matches.forEach((match, index) => {
-                let inputA = match.teamA.includes("3º") ? `<select class="actual-team-input text-right" id="actualA_${match.id}" onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualA', this)">${buildTeamOptions(match.actualA)}</select>` : `<input type="text" class="actual-team-input text-right" id="actualA_${match.id}" value="${match.actualA}" placeholder="Aguardando..." onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualA', this)">`;
-                let inputB = match.teamB.includes("3º") ? `<select class="actual-team-input text-left" id="actualB_${match.id}" onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualB', this)">${buildTeamOptions(match.actualB)}</select>` : `<input type="text" class="actual-team-input text-left" id="actualB_${match.id}" value="${match.actualB}" placeholder="Aguardando..." onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualB', this)">`;
-                
+                let inputA = match.teamA.includes("3º") 
+                    ? `<select class="actual-team-input text-right" id="actualA_${match.id}" onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualA', this)">${buildTeamOptions(match.actualA)}</select>`
+                    : `<input type="text" class="actual-team-input text-right" id="actualA_${match.id}" value="${match.actualA}" placeholder="Aguardando..." onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualA', this)">`;
+
+                let inputB = match.teamB.includes("3º")
+                    ? `<select class="actual-team-input text-left" id="actualB_${match.id}" onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualB', this)">${buildTeamOptions(match.actualB)}</select>`
+                    : `<input type="text" class="actual-team-input text-left" id="actualB_${match.id}" value="${match.actualB}" placeholder="Aguardando..." onchange="updateKnockoutManual('${phaseName}', ${index}, 'actualB', this)">`;
+
                 phaseHtml += `
                     <div class="match-block">
-                        <div class="match-info-bar">${phaseData.prefix} ${index + 1} | ${match.date} | ${match.time} | ${match.venue}</div>
+                        <div class="match-info-bar">
+                            <span style="font-weight:bold; color:var(--fifa-blue);">${phaseData.prefix} ${index + 1}</span> &nbsp;|&nbsp; 🗓️ ${match.date} &nbsp;📍 ${match.venue}
+                        </div>
                         <div class="match-row-real">
                             <div class="team-display-container team-left">
-                                <span class="slot-indicator">${match.teamA}</span>${inputA}
+                                <span class="slot-indicator">${match.teamA}</span>
+                                ${inputA}
                             </div>
+                            
                             <div class="score-real-center">
-                                <input type="number" min="0" class="score-input-real" value="${match.scoreA}" placeholder="-" onchange="updateKnockoutValue('${phaseName}', ${index}, 'scoreA', this)">
+                                <input type="number" min="0" class="score-input-real" id="scoreA_${match.id}" value="${match.scoreA}" placeholder="-" onchange="updateKnockoutValue('${phaseName}', ${index}, 'scoreA', this)">
                                 <span class="vs-text">X</span>
-                                <input type="number" min="0" class="score-input-real" value="${match.scoreB}" placeholder="-" onchange="updateKnockoutValue('${phaseName}', ${index}, 'scoreB', this)">
+                                <input type="number" min="0" class="score-input-real" id="scoreB_${match.id}" value="${match.scoreB}" placeholder="-" onchange="updateKnockoutValue('${phaseName}', ${index}, 'scoreB', this)">
                             </div>
+                            
                             <div class="team-display-container team-right">
-                                <span class="slot-indicator">${match.teamB}</span>${inputB}
+                                <span class="slot-indicator">${match.teamB}</span>
+                                ${inputB}
                             </div>
                         </div>
                         <div class="match-row-palpite">
                             <span>Palpite Original:</span>
-                            <input type="number" min="0" class="score-input-palpite" value="${match.pA}" placeholder="-" onchange="updateKnockoutPalpite('${phaseName}', ${index}, 'pA', this)">
+                            <input type="number" min="0" class="score-input-palpite" value="${match.pA || ''}" placeholder="-" onchange="knockoutPhases['${phaseName}'].matches[${index}]['pA'] = this.value; saveToLocalStorage();">
                             <span>x</span>
-                            <input type="number" min="0" class="score-input-palpite" value="${match.pB}" placeholder="-" onchange="updateKnockoutPalpite('${phaseName}', ${index}, 'pB', this)">
+                            <input type="number" min="0" class="score-input-palpite" value="${match.pB || ''}" placeholder="-" onchange="knockoutPhases['${phaseName}'].matches[${index}]['pB'] = this.value; saveToLocalStorage();">
                         </div>
                     </div>`;
             });
-            container.insertAdjacentHTML('beforeend', phaseHtml + `</div>`);
+            container.insertAdjacentHTML('beforeend', phaseHtml);
         }
     }
 
-    function isGroupFinished(groupLetter) { return groupDatabase[groupLetter].matches.every(m => m.scoreA !== "" && m.scoreB !== ""); }
+    function isGroupFinished(groupLetter) {
+        return groupDatabase[groupLetter].matches.every(m => m.scoreA !== "" && m.scoreB !== "");
+    }
 
     function syncKnockoutFromGroups() {
-        knockoutPhases["Segunda Fase"].matches.forEach(m => {
+        const m32 = knockoutPhases["Segunda Fase"].matches;
+        m32.forEach(m => {
             let matchA = m.teamA.match(/(1º|2º) Grupo ([A-L])/);
-            if (matchA && isGroupFinished(matchA[2])) {
-                let st = calculateGroupStandings(matchA[2]); m.actualA = st[matchA[1] === "1º" ? 0 : 1].name;
-                const el = document.getElementById(`actualA_${m.id}`); if(el) el.value = m.actualA;
+            if (matchA) {
+                let pos = matchA[1] === "1º" ? 0 : 1; let grp = matchA[2];
+                if (isGroupFinished(grp)) {
+                    let st = calculateGroupStandings(grp);
+                    m.actualA = st[pos].name;
+                    const el = document.getElementById(`actualA_${m.id}`); if(el) el.value = m.actualA;
+                }
             }
             let matchB = m.teamB.match(/(1º|2º) Grupo ([A-L])/);
-            if (matchB && isGroupFinished(matchB[2])) {
-                let st = calculateGroupStandings(matchB[2]); m.actualB = st[matchB[1] === "1º" ? 0 : 1].name;
-                const el = document.getElementById(`actualB_${m.id}`); if(el) el.value = m.actualB;
+            if (matchB) {
+                let pos = matchB[1] === "1º" ? 0 : 1; let grp = matchB[2];
+                if (isGroupFinished(grp)) {
+                    let st = calculateGroupStandings(grp);
+                    m.actualB = st[pos].name;
+                    const el = document.getElementById(`actualB_${m.id}`); if(el) el.value = m.actualB;
+                }
             }
         });
-        saveData(); // Salva a mudança ao sincronizar
     }
 
     function updateGroupValue(group, matchId, field, input) {
         if(parseInt(input.value) < 0) { alert("Valor negativo não permitido!"); input.value = ""; return; }
-        groupDatabase[group].matches.find(m => m.id === matchId)[field] = input.value === "" ? "" : parseInt(input.value);
+        const match = groupDatabase[group].matches.find(m => m.id === matchId);
+        match[field] = input.value === "" ? "" : parseInt(input.value);
         syncKnockoutFromGroups(); 
-        saveData(); // Salva os dados no navegador
+        saveToLocalStorage();
     }
 
     function updateKnockoutManual(phase, matchIndex, field, input) {
         knockoutPhases[phase].matches[matchIndex][field] = input.value;
-        if (knockoutPhases[phase].matches[matchIndex].scoreA !== "" && knockoutPhases[phase].matches[matchIndex].scoreB !== "") {
-            updateKnockoutValue(phase, matchIndex, 'scoreA', {value: knockoutPhases[phase].matches[matchIndex].scoreA});
+        const match = knockoutPhases[phase].matches[matchIndex];
+        if (match.scoreA !== "" && match.scoreB !== "") {
+            updateKnockoutValue(phase, matchIndex, 'scoreA', {value: match.scoreA});
         }
-        saveData();
+        saveToLocalStorage();
     }
 
     function updateKnockoutValue(phase, matchIndex, field, input) {
@@ -427,92 +425,216 @@ function processarArquivoJSON() {
         match[field] = input.value === "" ? "" : parseInt(input.value);
 
         if (match.scoreA !== "" && match.scoreB !== "") {
-            let actualTeamA = match.actualA || "Time A", actualTeamB = match.actualB || "Time B", winner = "", looser = "";
+            let actualTeamA = match.actualA || "Time A";
+            let actualTeamB = match.actualB || "Time B";
+            let winner = "", looser = "";
+
             if (parseInt(match.scoreA) > parseInt(match.scoreB)) { winner = actualTeamA; looser = actualTeamB; } 
             else if (parseInt(match.scoreB) > parseInt(match.scoreA)) { winner = actualTeamB; looser = actualTeamA; } 
-            else { winner = prompt(`Empate! Quem venceu nos pênaltis?\n1 - ${actualTeamA}\n2 - ${actualTeamB}`) === "2" ? actualTeamB : actualTeamA; looser = (winner === actualTeamA) ? actualTeamB : actualTeamA; }
-            if (match.nextMatch) { knockoutPhases[match.nextMatch.phase].matches[match.nextMatch.matchIndex][match.nextMatch.slot] = winner; let el = document.getElementById(`${match.nextMatch.slot}_${knockoutPhases[match.nextMatch.phase].matches[match.nextMatch.matchIndex].id}`); if(el) el.value = winner; }
-            if (match.looseMatch) { knockoutPhases[match.looseMatch.phase].matches[match.looseMatch.matchIndex][match.looseMatch.slot] = looser; let el = document.getElementById(`${match.looseMatch.slot}_${knockoutPhases[match.looseMatch.phase].matches[match.looseMatch.matchIndex].id}`); if(el) el.value = looser; }
-        }
-        saveData(); // Salva os dados no navegador
-    }
+            else {
+                winner = prompt(`Empate! Quem venceu nos pênaltis?\n1 - ${actualTeamA}\n2 - ${actualTeamB}`) === "2" ? actualTeamB : actualTeamA;
+                looser = (winner === actualTeamA) ? actualTeamB : actualTeamA;
+            }
 
-    // Função separada para salvar os palpites da fase de mata-mata
-    function updateKnockoutPalpite(phase, matchIndex, field, input) {
-        knockoutPhases[phase].matches[matchIndex][field] = input.value;
-        saveData();
+            if (match.nextMatch) {
+                const nConf = match.nextMatch;
+                knockoutPhases[nConf.phase].matches[nConf.matchIndex][nConf.slot] = winner;
+                let el = document.getElementById(`${nConf.slot}_${knockoutPhases[nConf.phase].matches[nConf.matchIndex].id}`);
+                if(el) el.value = winner;
+            }
+            if (match.looseMatch) {
+                const lConf = match.looseMatch;
+                knockoutPhases[lConf.phase].matches[lConf.matchIndex][lConf.slot] = looser;
+                let el = document.getElementById(`${lConf.slot}_${knockoutPhases[lConf.phase].matches[lConf.matchIndex].id}`);
+                if(el) el.value = looser;
+            }
+        }
+        saveToLocalStorage();
     }
 
     function filterMatches() {
         const query = document.getElementById('teamSearch').value.toLowerCase();
         document.querySelectorAll('.match-block').forEach(b => {
-            const txt = b.textContent.toLowerCase() + " " + Array.from(b.querySelectorAll('input, select')).map(i=>i.value).join(' ').toLowerCase();
+            const txt = b.textContent.toLowerCase() + " " + Array.from(b.querySelectorAll('input')).map(i=>i.value).join(' ').toLowerCase();
             b.style.display = txt.includes(query) ? 'block' : 'none';
         });
     }
 
     function calculateGroupStandings(groupLetter) {
+        const groupData = groupDatabase[groupLetter];
         let standings = {};
-        groupDatabase[groupLetter].teams.forEach(t => standings[t] = { name: t, pts: 0, v: 0, e: 0, j: 0, sg: 0, gp: 0 });
-        groupDatabase[groupLetter].matches.forEach(m => {
+        groupData.teams.forEach(t => standings[t] = { name: t, j: 0, v: 0, e: 0, pts: 0, sg: 0, gp: 0 });
+
+        groupData.matches.forEach(m => {
             if (m.scoreA !== "" && m.scoreB !== "") {
                 const sa = parseInt(m.scoreA); const sb = parseInt(m.scoreB);
-                standings[m.teamA].j++; standings[m.teamB].j++;
+                standings[m.teamA].j += 1; standings[m.teamB].j += 1;
                 standings[m.teamA].gp += sa; standings[m.teamB].gp += sb;
-                if (sa > sb) { standings[m.teamA].pts += 3; standings[m.teamA].v++; } 
-                else if (sa < sb) { standings[m.teamB].pts += 3; standings[m.teamB].v++; } 
+                
+                if (sa > sb) { standings[m.teamA].pts += 3; standings[m.teamA].v++; }
+                else if (sa < sb) { standings[m.teamB].pts += 3; standings[m.teamB].v++; }
                 else { standings[m.teamA].pts += 1; standings[m.teamB].pts += 1; standings[m.teamA].e++; standings[m.teamB].e++; }
-                standings[m.teamA].sg = standings[m.teamA].gp - sb; standings[m.teamB].sg = standings[m.teamB].gp - sa;
+                
+                standings[m.teamA].sg = standings[m.teamA].gp - (standings[m.teamA].gp_contra = (standings[m.teamA].gp_contra || 0) + sb);
+                standings[m.teamB].sg = standings[m.teamB].gp - (standings[m.teamB].gp_contra = (standings[m.teamB].gp_contra || 0) + sa);
             }
         });
-        return Object.values(standings).sort((a, b) => b.pts - a.pts || b.sg - a.sg);
+        return Object.values(standings).sort((a, b) => b.pts - a.pts || b.sg - a.sg || b.gp - a.gp);
     }
 
     function updateAllTables() {
-        const container = document.getElementById('tables-container'); if(!container) return; container.innerHTML = '';
+        const container = document.getElementById('tables-container');
+        if(!container) return;
+        container.innerHTML = '';
+        
         for (const groupLetter of Object.keys(groupDatabase)) {
+            const sorted = calculateGroupStandings(groupLetter);
             let html = `<div class="group-card"><div class="group-header">GRUPO ${groupLetter}</div>`;
-            if(groupLetter === 'A') html += `<div class="legenda">Legenda: J: Jogos | V: Vitórias | E: Empates | P: Pontos | SG: Saldo de Gols</div>`;
-            html += `<table class="table-ranking"><thead><tr><th style="width: 18%">Posição</th><th style="text-align: left;">Seleção</th><th style="width: 10%">J</th><th style="width: 10%">V</th><th style="width: 10%">E</th><th style="width: 10%">P</th><th style="width: 10%">SG</th></tr></thead><tbody>`;
-            calculateGroupStandings(groupLetter).forEach((team, i) => {
-                let rowStyle = i < 2 ? 'style="background-color: rgba(0, 177, 89, 0.08); font-weight: bold;"' : '';
-                html += `<tr ${rowStyle}><td>${i + 1}º</td><td style="text-align: left;">${team.name}</td><td>${team.j}</td><td>${team.v}</td><td>${team.e}</td><td><b>${team.pts}</b></td><td>${team.sg}</td></tr>`;
+            if(groupLetter === 'A') {
+                html += `<div class="legenda">Legenda: J: Jogos | V: Vitórias | E: Empates | P: Pontos | SG: Saldo de Gols</div>`;
+            }
+            html += `<table class="table-ranking">
+                        <thead>
+                            <tr><th>Posição</th><th>Seleção</th><th>J</th><th>V</th><th>E</th><th>P</th><th>SG</th></tr>
+                        </thead>
+                        <tbody>`;
+            sorted.forEach((team, i) => {
+                html += `<tr>
+                            <td>${i + 1}º</td>
+                            <td style="text-align: left; padding-left: 5px;">${team.name}</td>
+                            <td>${team.j}</td><td>${team.v}</td><td>${team.e}</td>
+                            <td><b>${team.pts}</b></td><td>${team.sg}</td>
+                         </tr>`;
             });
-            container.insertAdjacentHTML('beforeend', html + `</tbody></table></div>`);
+            html += `</tbody></table></div>`;
+            container.insertAdjacentHTML('beforeend', html);
         }
     }
 
     function getTeamsProgress() {
         let pMap = {};
-        Object.values(groupDatabase).forEach(g => g.teams.forEach(t => pMap[t] = 0));
-        ["Segunda Fase", "Oitavas de Final", "Quartas de Final", "Semifinais", "Terceiro Lugar", "Grande Final"].forEach((pName, step) => {
+        for (const group of Object.values(groupDatabase)) { group.teams.forEach(t => pMap[t] = 0); }
+        const sKeys = ["Segunda Fase", "Oitavas de Final", "Quartas de Final", "Semifinais", "Terceiro Lugar", "Grande Final"];
+        
+        sKeys.forEach((pName, step) => {
+            let pVal = step + 1;
             knockoutPhases[pName].matches.forEach(m => {
                 if(m.scoreA !== "" && m.scoreB !== "") {
-                    if(m.actualA && pMap[m.actualA] !== undefined) pMap[m.actualA] = Math.max(pMap[m.actualA], step + 1);
-                    if(m.actualB && pMap[m.actualB] !== undefined) pMap[m.actualB] = Math.max(pMap[m.actualB], step + 1);
+                    if(m.actualA && pMap[m.actualA] !== undefined) pMap[m.actualA] = Math.max(pMap[m.actualA], pVal);
+                    if(m.actualB && pMap[m.actualB] !== undefined) pMap[m.actualB] = Math.max(pMap[m.actualB], pVal);
                 }
             });
         });
-        return Object.keys(pMap).map(n => ({ name: n, phaseValue: pMap[n] })).sort((a,b) => b.phaseValue - a.phaseValue);
+        return Object.keys(pMap).map(n => ({ name: n, phaseValue: pMap[n] })).sort((a,b) => b.phaseValue - a.phaseValue || a.name.localeCompare(b.name));
     }
 
     function renderCharts() {
-        const tData = getTeamsProgress();
+        const teamsData = getTeamsProgress();
+        const ctx = document.getElementById('rankingChart');
+        if(!ctx) return;
         if(chartInstance) chartInstance.destroy();
-        chartInstance = new Chart(document.getElementById('rankingChart').getContext('2d'), {
-            type: 'bar', data: { labels: tData.map(t => t.name), datasets: [{ label: 'Fase Máxima Alcançada', data: tData.map(t => t.phaseValue), backgroundColor: tData.map((t, i) => i < 10 ? '#002f6c' : '#00b159'), borderRadius: 4 }] },
-            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { min: 0, max: 6, ticks: { stepSize: 1, callback: function(val) { return phasesMapping[val]; } } }, y: { ticks: { autoSkip: false, font: function(ctx) { return { weight: ctx.index < 10 ? 'bold' : 'normal', size: ctx.index < 10 ? 12 : 10 }; } } } } }
+
+        const colors = teamsData.map((t, i) => t.phaseValue > 0 ? '#00b159' : '#002f6c');
+        chartInstance = new Chart(ctx.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: teamsData.map(t => t.name),
+                datasets: [{ label: 'Fase Máxima Alcançada', data: teamsData.map(t => t.phaseValue), backgroundColor: colors, borderRadius: 4 }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { min: 0, max: 6, ticks: { stepSize: 1, callback: function(val) { return phasesMapping[val]; } } },
+                    y: { ticks: { autoSkip: false, font: { size: 10 } } }
+                }
+            }
         });
     }
 
+    // Mecanismo Push: Ler Lista de Objetos do seu JSON
+    function importarResultadosJSON() {
+        const fileInput = document.getElementById('jsonFileInput');
+        if (!fileInput.files.length) return alert("Por favor, selecione um arquivo de dados .json primeiro!");
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const jogosImportados = JSON.parse(e.target.result);
+                let contadorGrupos = 0;
+                let contadorMataMata = 0;
+
+                jogosImportados.forEach(item => {
+                    const [timeA, timeB] = item.Jogo.split(" vs. ");
+                    const [golsA, golsB] = item.Resultado.split(" - ");
+                    
+                    if(golsA === undefined || golsB === undefined) return;
+
+                    // 1. Tenta encontrar na Fase de Grupos
+                    for (let gKey in groupDatabase) {
+                        let match = groupDatabase[gKey].matches.find(m => 
+                            m.teamA.trim().toLowerCase() === timeA.trim().toLowerCase() && 
+                            m.teamB.trim().toLowerCase() === timeB.trim().toLowerCase()
+                        );
+                        if (match) {
+                            match.scoreA = parseInt(golsA);
+                            match.scoreB = parseInt(golsB);
+                            contadorGrupos++;
+                        }
+                    }
+
+                    // 2. Tenta encontrar nas Fases Eliminatórias (Mata-Mata)
+                    for (let pKey in knockoutPhases) {
+                        let match = knockoutPhases[pKey].matches.find(m => 
+                            m.actualA.trim().toLowerCase() === timeA.trim().toLowerCase() && 
+                            m.actualB.trim().toLowerCase() === timeB.trim().toLowerCase()
+                        );
+                        if (match) {
+                            match.scoreA = parseInt(golsA);
+                            match.scoreB = parseInt(golsB);
+                            contadorMataMata++;
+                        }
+                    }
+                });
+
+                // Atualizar encadeamentos e localStorage
+                syncKnockoutFromGroups();
+                saveToLocalStorage();
+                
+                // Forçar recarga visual dos inputs da tela ativa
+                initGroups();
+                initKnockout();
+                updateAllTables();
+                renderCharts();
+
+                alert(`Sucesso! Sincronizados: ${contadorGrupos} jogos de Grupos e ${contadorMataMata} do Mata-Mata.`);
+            } catch (erro) {
+                alert("Erro ao ler o arquivo JSON. Verifique a formatação do arquivo estruturado.");
+                console.error(erro);
+            }
+        };
+        reader.readAsText(fileInput.files[0]);
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem('copa2026_groupDatabase', JSON.stringify(groupDatabase));
+        localStorage.setItem('copa2026_knockoutPhases', JSON.stringify(knockoutPhases));
+    }
+
+    function loadFromLocalStorage() {
+        const gData = localStorage.getItem('copa2026_groupDatabase');
+        const kData = localStorage.getItem('copa2026_knockoutPhases');
+        if(gData) Object.assign(groupDatabase, JSON.parse(gData));
+        if(kData) Object.assign(knockoutPhases, JSON.parse(kData));
+    }
+
+    // Inicializador Unificado de ciclo de vida
     window.addEventListener('DOMContentLoaded', () => { 
-        loadData(); // Agora ele carrega os dados antes de gerar a tela
+        loadFromLocalStorage();
         initGroups(); 
         initKnockout(); 
-        syncKnockoutFromGroups(); 
-        renderCharts();
+        syncKnockoutFromGroups();
     });
-    
 </script>
 </body>
 </html>
